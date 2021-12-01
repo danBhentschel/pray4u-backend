@@ -8,12 +8,13 @@ export default {
       http: {
         method: 'post',
         path: 'hello',
+        authorizer: 'aws_iam',
         request: {
           schemas: {
-            'application/json': schema
-          }
-        }
-      }
-    }
-  ]
-}
+            'application/json': schema,
+          },
+        },
+      },
+    },
+  ],
+};
