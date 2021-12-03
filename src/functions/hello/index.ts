@@ -8,6 +8,7 @@ export default {
       http: {
         method: 'post',
         path: 'hello',
+        cors: true,
         authorizer: 'aws_iam',
         request: {
           schemas: {
