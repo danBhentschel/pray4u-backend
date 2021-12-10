@@ -38,9 +38,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
 
     - name: yarn install
-      uses: borales/actions-yarn@v2.3.0
-      with:
-        cmd: yarn install --frozen-lockfile
+      run: npx yarn install --frozen-lockfile
 
     - name: Serverless deploy
       run: npx serverless deploy --stage ${{ env.build_type }}
