@@ -7,7 +7,9 @@ on:
     branches: [ main ]
 
 env:
-  stage: ci
+  SERVERLESS_STAGE: ci
+  COGNITO_USERNAME: test_user@some.place
+  COGNITO_PASSWORD: ${{ secrets.TEST_PASSWORD }}
 
 jobs:
   build:
@@ -44,29 +46,21 @@ jobs:
       run: npx yarn unit-test
 
     - name: Serverless deploy
-      run: npx serverless deploy --stage ${{ env.stage }}
+      run: npx serverless deploy --stage ${{ env.SERVERLESS_STAGE }}
 
     - name: Create test user
       run: ./integration/create_test_user.sh
-      env:
-        SERVERLESS_STAGE: ${{ env.stage }}
-        COGNITO_USERNAME: test_user@some.place
-        COGNITO_PASSWORD: ${{ secrets.TEST_PASSWORD }}
+
+    - name: Wait for API Gateway
+      run: npx ts-node integration/wait_for_api_to_be_ready.ts
 
     - name: Run integration tests
       run: npx yarn integration-test
-      env:
-        SERVERLESS_STAGE: ${{ env.stage }}
-        COGNITO_USERNAME: test_user@some.place
-        COGNITO_PASSWORD: ${{ secrets.TEST_PASSWORD }}
 
     - name: Delete test user
       if: always()
       run: ./integration/delete_test_user.sh
-      env:
-        SERVERLESS_STAGE: ${{ env.stage }}
-        COGNITO_USERNAME: test_user@some.place
 
     - name: Serverless remove
       if: always()
-      run: npx serverless remove --stage ${{ env.stage }}
+      run: npx serverless remove --stage ${{ env.SERVERLESS_STAGE }}
