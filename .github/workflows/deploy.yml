@@ -46,6 +46,10 @@ jobs:
     - name: Serverless deploy
       run: npx serverless deploy --stage ${{ env.stage }}
 
+    - name: Sleep 30 seconds
+      run: sleep 30s
+      shell: bash
+
     - name: Create test user
       run: ./integration/create_test_user.sh
       env:
