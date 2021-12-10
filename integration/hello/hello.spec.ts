@@ -24,6 +24,8 @@ beforeEach(async () => {
             ]
         },
     });
+
+    jest.setTimeout(4 * 60 * 1000);
 });
 
 test('should be able to call hello', async () => {
