@@ -10,11 +10,13 @@ export const post = async (apiName: any, path: any, init: any): Promise<any> => 
         try {
             return await API.post(apiName, path, init);
         } catch (e) {
+            if (e.message !== 'Request failed with status code 403') {
+                throw e;
+            }
             lastError = e;
-            console.warn(JSON.stringify(e));
-            await sleep(200);
+            await sleep(500);
         }
-    } while (Date.now() - start < 60000);
+    } while (Date.now() - start < 4 * 60 * 1000);
 
     throw lastError;
 };
