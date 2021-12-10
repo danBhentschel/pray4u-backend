@@ -1,0 +1,49 @@
+name: deploy
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  build_type: ci
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      contents: read
+
+    strategy:
+      matrix:
+        node-versions: [14.x]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-region: us-east-1
+        role-to-assume: arn:aws:iam::354178563115:role/Pray4uBackendGithubActions
+        role-session-name: Pray4uBackendGitHubDeploy
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: yarn install
+      uses: borales/actions-yarn@v2.3.0
+      with:
+        cmd: yarn install --frozen-lockfile
+
+    - name: Serverless deploy
+      run: npx serverless deploy --stage ${{ env.build_type }}
+
+    - name: Serverless remove
+      run: npx serverless remove --stage ${{ env.build_type }}
