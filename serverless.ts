@@ -7,7 +7,10 @@ const serverlessConfiguration: AWS = {
 
   frameworkVersion: '3',
 
-  plugins: ['serverless-bundle'],
+  plugins: [
+    'serverless-bundle',
+    'serverless-domain-manager',
+  ],
 
   package: { individually: true },
 
@@ -26,6 +29,16 @@ const serverlessConfiguration: AWS = {
       identityPool: {
         name: '${self:service}-${self:custom.stage}-identity-pool',
       },
+    },
+    customDomain: {
+      domainName: 'api.dev.pray4u.org',
+      basePath: '${self:custom.stage}',
+      stage: '${self:custom.stage}',
+      createRoute53Record: true,
+      endpointType: 'regional',
+      securityPolicy: 'tls_1_2',
+      apiType: 'rest',
+      autoDomain: false,
     },
   },
 
