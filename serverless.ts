@@ -10,6 +10,7 @@ const serverlessConfiguration: AWS = {
   plugins: [
     'serverless-bundle',
     'serverless-domain-manager',
+    'serverless-stack-output',
   ],
 
   package: { individually: true },
@@ -39,6 +40,13 @@ const serverlessConfiguration: AWS = {
       securityPolicy: 'tls_1_2',
       apiType: 'rest',
       autoDomain: false,
+    },
+    output: {
+      file: 'integration/${self:custom.stage}-stack-output.json',
+    },
+    bundle: {
+      packager: 'yarn',
+      excludeFiles: '**/*.spec.ts',
     },
   },
 
@@ -358,6 +366,9 @@ const serverlessConfiguration: AWS = {
         Value: {
           Ref: 'cognitoIdentityPool',
         },
+      },
+      region: {
+        Value: '${self:provider.region}',
       },
     },
   },

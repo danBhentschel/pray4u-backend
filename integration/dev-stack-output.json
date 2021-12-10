@@ -1,0 +1,15 @@
+{
+  "DomainName": "api.dev.pray4u.org",
+  "HostedZoneId": "Z1UJRXOUMOOFQ8",
+  "DistributionDomainName": "d-mklij4eax6.execute-api.us-east-1.amazonaws.com",
+  "ServerlessDeploymentBucketName": "pray4u-backend-dev-serverlessdeploymentbucket-1k9og3kodzzp4",
+  "audioBucketName": "pray4u-backend-dev-audiobucket-1u1faqo9outzk",
+  "userPoolClientId": "2b6700e296kjtscnqojbvf6ijr",
+  "HelloLambdaFunctionQualifiedArn": "arn:aws:lambda:us-east-1:354178563115:function:pray4u-backend-dev-hello:31",
+  "region": "us-east-1",
+  "userPoolId": "us-east-1_Js4fg6DMp",
+  "identityPoolId": "us-east-1:ad98566b-ef85-4b25-acf6-405a26aafbf2",
+  "ServiceEndpoint": "https://tp1v02s6e2.execute-api.us-east-1.amazonaws.com/dev",
+  "textBucketName": "pray4u-backend-dev-textbucket-iekn0pcqt1l7",
+  "videoBucketName": "pray4u-backend-dev-videobucket-8ay0k195512r"
+}

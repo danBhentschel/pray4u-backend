@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 env:
-  build_type: ci
+  stage: ci
 
 jobs:
   build:
@@ -40,8 +40,31 @@ jobs:
     - name: yarn install
       run: npx yarn install --frozen-lockfile
 
+    - name: Run unit tests
+      run: npx yarn unit-test
+
     - name: Serverless deploy
-      run: npx serverless deploy --stage ${{ env.build_type }}
+      run: npx serverless deploy --stage ${{ env.stage }}
+
+    - name: Create test user
+      run: ./integration/create_test_user.sh
+      env:
+        SERVERLESS_STAGE: ${{ env.stage }}
+        COGNITO_USERNAME: test_user@some.place
+        COGNITO_PASSWORD: ${{ secrets.TEST_PASSWORD }}
+
+    - name: Run integration tests
+      run: npx yarn integration-test
+      env:
+        SERVERLESS_STAGE: ${{ env.stage }}
+        COGNITO_USERNAME: test_user@some.place
+        COGNITO_PASSWORD: ${{ secrets.TEST_PASSWORD }}
+
+    - name: Delete test user
+      run: ./integration/delete_test_user.sh
+      env:
+        SERVERLESS_STAGE: ${{ env.stage }}
+        COGNITO_USERNAME: test_user@some.place
 
     - name: Serverless remove
-      run: npx serverless remove --stage ${{ env.build_type }}
+      run: npx serverless remove --stage ${{ env.stage }}
