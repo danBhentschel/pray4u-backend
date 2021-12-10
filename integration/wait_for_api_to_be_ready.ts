@@ -13,6 +13,7 @@ const post = async (apiName: any, path: any, init: any): Promise<any> => {
         try {
             return await API.post(apiName, path, init);
         } catch (e) {
+            console.debug(`FAILED: ${e.message}`);
             if (e.message !== 'Request failed with status code 403') {
                 throw e;
             }
@@ -31,5 +32,6 @@ const post = async (apiName: any, path: any, init: any): Promise<any> => {
     await amplifySignIn();
 
     console.debug('Attempting to post');
-    await post('hello', '/hello', { body: { name: 'Fred' } });
+    const result = await post('hello', '/hello', { body: { name: 'Fred' } });
+    console.debug(`SUCCESS: ${result.message}`);
 })();
