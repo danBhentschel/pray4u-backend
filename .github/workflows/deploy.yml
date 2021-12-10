@@ -61,10 +61,12 @@ jobs:
         COGNITO_PASSWORD: ${{ secrets.TEST_PASSWORD }}
 
     - name: Delete test user
+      if: always()
       run: ./integration/delete_test_user.sh
       env:
         SERVERLESS_STAGE: ${{ env.stage }}
         COGNITO_USERNAME: test_user@some.place
 
     - name: Serverless remove
+      if: always()
       run: npx serverless remove --stage ${{ env.stage }}
