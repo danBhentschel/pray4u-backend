@@ -1,4 +1,4 @@
-name: deploy
+name: Run CI Build / Test
 
 on:
   push:
@@ -45,7 +45,7 @@ jobs:
     - name: Run unit tests
       run: npx yarn unit-test
 
-    - name: Serverless deploy
+    - name: Serverless deploy to ci
       run: npx serverless deploy --stage ${{ env.SERVERLESS_STAGE }}
 
     - name: Create test user
@@ -61,6 +61,10 @@ jobs:
       if: always()
       run: ./integration/delete_test_user.sh
 
-    - name: Serverless remove
+    - name: Serverless remove ci
       if: always()
       run: npx serverless remove --stage ${{ env.SERVERLESS_STAGE }}
+
+    - name: Serverless deploy to staging
+      if: ${{ success() && github.ref == 'refs/heads/main' }}
+      run: npx serverless deploy --stage staging
