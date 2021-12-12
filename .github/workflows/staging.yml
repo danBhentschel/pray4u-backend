@@ -1,0 +1,44 @@
+name: deploy
+
+on:
+  push:
+    branches: [ main ]
+
+env:
+  SERVERLESS_STAGE: staging
+  COGNITO_USERNAME: test_user@some.place
+  COGNITO_PASSWORD: ${{ secrets.TEST_PASSWORD }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      contents: read
+
+    strategy:
+      matrix:
+        node-versions: [14.x]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-region: us-east-1
+        role-to-assume: arn:aws:iam::354178563115:role/Pray4uBackendGithubActions
+        role-session-name: Pray4uBackendGitHubDeploy
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: yarn install
+      run: npx yarn install --frozen-lockfile
+
+    - name: Serverless deploy
+      run: npx serverless deploy --stage ${{ env.SERVERLESS_STAGE }}
