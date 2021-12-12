@@ -26,6 +26,7 @@ const post = async (apiName: any, path: any, init: any): Promise<any> => {
             }
             lastError = e;
             await sleep(1000);
+            successes = 0;
         }
     } while (Date.now() - start < MINUTES_TO_WAIT * 60 * 1000);
 
