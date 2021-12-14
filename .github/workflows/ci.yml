@@ -8,7 +8,7 @@ on:
 
 env:
   SERVERLESS_STAGE: ci
-  COGNITO_USERNAME: test_user@some.place
+  COGNITO_USERNAME: ${{ secrets.TEST_USERNAME }}
   COGNITO_PASSWORD: ${{ secrets.TEST_PASSWORD }}
 
 jobs:
