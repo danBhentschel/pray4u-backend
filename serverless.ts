@@ -178,6 +178,9 @@ const serverlessConfiguration: AWS = {
 
       cognitoUserPoolClient: {
         Type: 'AWS::Cognito::UserPoolClient',
+        DependsOn: [
+          'googleIdentityProvider',
+        ],
         Properties: {
           ClientName: '${self:custom.cognito.userPool.client}',
           UserPoolId: {
