@@ -7,6 +7,8 @@ const serverlessConfiguration: AWS = {
 
   frameworkVersion: '3',
 
+  variablesResolutionMode: '20210326',
+
   plugins: [
     'serverless-bundle',
     'serverless-domain-manager',
@@ -183,6 +185,25 @@ const serverlessConfiguration: AWS = {
           },
           ExplicitAuthFlows: ['ADMIN_NO_SRP_AUTH'],
           GenerateSecret: false,
+          SupportedIdentityProviders: [
+            'COGNITO',
+            'Google',
+          ],
+          CallbackURLs: [
+            'http://localhost:3000',
+          ],
+          LogoutURLs: [
+            'http://localhost:3000',
+          ],
+          AllowedOAuthFlows: [
+            'code',
+            'implicit',
+          ],
+          AllowedOAuthScopes: [
+            'profile',
+            'email',
+            'openid',
+          ],
         },
       },
 
@@ -201,6 +222,29 @@ const serverlessConfiguration: AWS = {
               },
             },
           ],
+          SupportedLoginProviders: {
+            "accounts.google.com": "344279965332-4cma6kuef2essduetjc4mb19dpr5663b.apps.googleusercontent.com",
+          },
+        },
+      },
+
+      googleIdentityProvider: {
+        Type: 'AWS::Cognito::UserPoolIdentityProvider',
+        Properties: {
+          UserPoolId: {
+            Ref: 'cognitoUserPool',
+          },
+          ProviderName: 'Google',
+          ProviderDetails: {
+            client_id: '344279965332-4cma6kuef2essduetjc4mb19dpr5663b.apps.googleusercontent.com',
+            client_secret: '${ssm:/Google_Pray4uWebApp_OAuth_Client_Key}',
+            authorize_scopes: 'profile email openid',
+          },
+          ProviderType: 'Google',
+          AttributeMapping: {
+            email: 'email',
+            email_verified: 'email_verified',
+          },
         },
       },
 
