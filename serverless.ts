@@ -226,7 +226,7 @@ const serverlessConfiguration: AWS = {
             },
           ],
           SupportedLoginProviders: {
-            "accounts.google.com": "344279965332-4cma6kuef2essduetjc4mb19dpr5663b.apps.googleusercontent.com",
+            'accounts.google.com': '344279965332-tuth4qcjhn48j2oaic4gngd9cnahjtqf.apps.googleusercontent.com',
           },
         },
       },
@@ -239,7 +239,7 @@ const serverlessConfiguration: AWS = {
           },
           ProviderName: 'Google',
           ProviderDetails: {
-            client_id: '344279965332-4cma6kuef2essduetjc4mb19dpr5663b.apps.googleusercontent.com',
+            client_id: '344279965332-tuth4qcjhn48j2oaic4gngd9cnahjtqf.apps.googleusercontent.com',
             client_secret: '${ssm:/Google_Pray4uWebApp_OAuth_Client_Key}',
             authorize_scopes: 'profile email openid',
           },
