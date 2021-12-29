@@ -10,5 +10,5 @@ test('should be able to call hello', async () => {
     const response = await API.post('hello', '/hello', { body: { name: 'Fred' } });
 
     expect(response.message).toBe('Hello Fred, welcome to the exciting Serverless world!');
-    expect(response.cognitoId).toMatch(/^[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/);
+    expect(response.cognitoId).toMatch(/^cognito:[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/);
 });
